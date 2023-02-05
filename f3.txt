@@ -1,2 +1,2 @@
 another file in local
-line added in remote
+line added in local
