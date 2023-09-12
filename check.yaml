@@ -22,12 +22,10 @@ spec:
         persistence:
             data:
                 enabled: true
-                existingClaim: mattermost-mattermost-team-edition
                 storageClass: longhorn
                 accessMode: ReadWriteOnce
             plugins:
                 enabled: true
-                existingClaim: mattermost-mattermost-team-edition-plugins
                 storageClass: longhorn
                 accessMode: ReadWriteOnce
         service:
@@ -61,7 +59,7 @@ spec:
         externalDB:
             enabled: true
             externalDriverType: mysql
-            externalConnectionString: ENC[AES256_GCM,data:U6W7C0nkeW6Xicq6fuQ+E+jiERs9EIeSEZKoedNnB0aJUrTUFvkelA6xrU8KGgs8AKVnzb0Od3BplkjFsCog+UJO/ZxTcHKmE2TjhNvlmZ0NFdgvnggTELzrgHjQxnzSE+sWeDmvH7GXvyUmO7e/Fg==,iv:LjAwiL6DQA8GeZq8XAcJW+kMnyaF7rY1t4XYho79Ieo=,tag:K4ruZesNwOkyX02PaQC8pw==,type:str]
+            externalConnectionString: ENC[AES256_GCM,data:jzH13+o6bWuKTgl9E8HEeQ7TOBKx3kUa2Es3WgFjdHEVUL1XN+1QZtV0xbXU9yrfMR0ynyqxqewSZ7MfuD3fUxg84FA3RYqmhiwhFsAZFSrsmLoHjkbfQlEt6QypOSc6/yEc2AFFRMPLJid4O9tDXQ==,iv:Oowz1kOYiQ2EpVg69ob+ziQlx0915TofswvBZuAF9A4=,tag:SXzNBg/Xyh6N05Z8q1R1ow==,type:str]
         mysql:
             enabled: false
         securityContext:
@@ -78,11 +76,11 @@ sops:
         - vault_address: http://10.43.104.142:8200
           engine_path: transit
           key_name: RBAC
-          created_at: "2023-09-12T09:09:17Z"
-          enc: vault:v1:Zkty79bXpddXIZwC+tn4bmj6wzWRCYiM3OWY2PQ0ohP4J/ZkdvM7yu9Fhf6GWGLlnfqaqs5gWJEqG48B
+          created_at: "2023-09-12T09:30:43Z"
+          enc: vault:v1:U7ZVk2YzyIXM5daZfqIaZVYMTJ6Z26fsgIx3ci3Ni5NsNYmid/Ub1aZpoqcQt2IFYa/HqWduuLTmgvaj
     age: []
-    lastmodified: "2023-09-12T09:09:17Z"
-    mac: ENC[AES256_GCM,data:Ux66za/DOrV6TLv3Do72aUjvUDQwOsxNLKseF2lVYaDbi9seUXgLrpMDzRTm/+GDy3dQoyxJhDvqAna/6dmzsUA8CFJz2UveeMI0i1gSc5NpGUWZ6sNdWZFuntRYd1LSLsiL/sBoksTHUl4p51Y81Ao62ZeTW9TGgPD3rD8+FNw=,iv:Otsmm1e081Kg7XzFM6zakjYfbbZFBnZ5vxzeKpF6Ch8=,tag:kJIZqGdENLMt0O+1P3YKeQ==,type:str]
+    lastmodified: "2023-09-12T09:30:43Z"
+    mac: ENC[AES256_GCM,data:JFHKweAcJK0PS/hFSHlniPCeRBRXm/QgH0w/lVOqqJkUJeMp8sYs+bSc7BdM1Fb8Rim9Efq8t9xm4+sKczUJawU8T2DlDDGOOvPJxOdJxhl5eUDwe9OioHxk9WEvH6TFJW3rb1OeeLqSODbVp+XmrgFPvMqlQeWuY9/Dq8KbDU8=,iv:PLpgqULfGifpY28DkBty0TdaQFpCIoO6/KDdbbRwyVc=,tag:BUdgTgCzSvsJNG5DkFT6Bg==,type:str]
     pgp: []
     encrypted_regex: ^(externalConnectionString)$
     version: 3.8.0-rc.1
