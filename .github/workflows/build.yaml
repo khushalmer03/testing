@@ -15,7 +15,7 @@ jobs:
       timeout-minutes: 5
 
     - name: Login to Docker Hub
-      uses: docker/login-action@v1
+      uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
@@ -36,5 +36,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: khushalmer/myimg:${{ github.ref_slug }}-${{ steps.vars.outputs.sha_short }}-${{ steps.epoch.outputs.epoch }}
+        tags: khushalmer/myimg:${{ github.ref }}-${{ steps.vars.outputs.sha_short }}-${{ steps.epoch.outputs.epoch }}
  
