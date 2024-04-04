@@ -53,13 +53,13 @@ jobs:
         tags: khushalmer/myimg:${{ steps.tag.outputs.tag }}
         # ${{ steps.extract_branch.outputs.branch }}-${{ steps.vars.outputs.sha_short }}-${{ steps.epoch.outputs.epoch }}
 
-    # - name: Mattermost Notification
-    #   uses: rtCamp/action-slack-notify@v2
-    #   if: always()
-    #   env:
-    #     SLACK_WEBHOOK: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
-    #     SLACK_COLOR: ${{ job.status }}
-    #     SLACK_MESSAGE: "##### Build Workflow run **${{ job.status }}**"
-    #     SLACK_FOOTER: ""
-    #   timeout-minutes: 5
+    - name: Mattermost Notification
+      uses: rtCamp/action-slack-notify@v2
+      if: always()
+      env:
+        SLACK_WEBHOOK: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_MESSAGE: "##### Build Workflow run **${{ job.status }}**"
+        SLACK_FOOTER: ""
+      timeout-minutes: 5
  
