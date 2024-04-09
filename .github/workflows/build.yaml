@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-push:
-    if: "!contains(github.event.commits[0].message, '[skip ci]')"
+    if:  "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
