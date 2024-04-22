@@ -41,5 +41,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.OCI_REGISTRY }}/${{ secrets.NAMESPACE }}/backoffice:${{ steps.tag.outputs.tag }}
+        tags: ${{ secrets.OCI_REGISTRY }}/${{ secrets.NAMESPACE }}backoffice:${{ steps.tag.outputs.tag }}
       timeout-minutes: 5
