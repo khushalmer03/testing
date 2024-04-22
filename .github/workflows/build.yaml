@@ -5,15 +5,18 @@ on:
     branches:
       - main
 
+env:
+  SOURCE_BRANCH: "${{ github.event.pull_request.head.ref }}"
+
 jobs:
+
   build-and-push:
-    if:  "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
       timeout-minutes: 5
-  
+
     - name: Set up Docker Buildx
       id: buildx
       uses: docker/setup-buildx-action@v3
@@ -23,55 +26,20 @@ jobs:
       id: tag
       run: echo "tag=${{ github.ref_name }}-$(git rev-parse --short HEAD)-$(date +%s)" >> $GITHUB_OUTPUT
       timeout-minutes: 5
-    
-    - name: Login to Docker Hub
+
+    - name: Login to OCIR
       uses: docker/login-action@v3
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        registry: ${{ secrets.OCI_REGISTRY }}  # Registry region
+        username: ${{ secrets.OCI_USERNAME }}  #<tenancy>/<username>
+        password: ${{ secrets.OCI_TOKEN }}  # Auth Token
       timeout-minutes: 5
 
-  
-    # - name: Extract branch name
-    #   shell: bash
-    #   run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-    #   id: extract_branch
-
-    # - name: Get Short SHA
-    #   id: vars
-    #   run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-    #   timeout-minutes: 5
-
-    # - name: Get Epoch
-    #   id: epoch
-    #   run: echo "epoch=$(date +%s)">> $GITHUB_OUTPUT
-    #   timeout-minutes: 5
 
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v5
       with:
         context: .
         push: true
-        tags: khushalmer/myimg:${{ steps.tag.outputs.tag }}
-        # ${{ steps.extract_branch.outputs.branch }}-${{ steps.vars.outputs.sha_short }}-${{ steps.epoch.outputs.epoch }}
-
-    # - name: Mattermost Notification
-    #   uses: rtCamp/action-slack-notify@v2
-    #   if: always()
-    #   env:
-    #     SLACK_WEBHOOK: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
-    #     SLACK_COLOR: ${{ job.status }}
-    #     SLACK_MESSAGE: "##### Build Workflow run **${{ job.status }}**"
-    #     SLACK_FOOTER: ""
-    #   timeout-minutes: 5
-
-  job1:
-    runs-on: ubuntu-latest
-    needs: build-and-push
-    if: |
-      always() &&
-      (needs.build-and-push.result == 'skipped' || needs.build-and-push.result == 'success')
-    steps:
-    - name: Print Message
-      run: echo "This is Job 2"    
-      
+        tags: ${{ secrets.OCI_REGISTRY }}/${{ secrets.NAMESPACE }}/backoffice:${{ steps.tag.outputs.tag }}
+      timeout-minutes: 5
