@@ -41,5 +41,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: sin.ocir.io/axeegc0fjto8/backoffice:${{ steps.tag.outputs.tag }}
+        tags: sin.ocir.io/${{ secrets.NAMESPACE }}/backoffice:${{ steps.tag.outputs.tag }}
       timeout-minutes: 5
