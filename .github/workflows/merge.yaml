@@ -12,21 +12,26 @@ jobs:
     env:
       MAIN_BRANCH: main
       KUBERENETES_BRANCH: b1
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     steps:
       - name: Checkout Main ( ${{env.MAIN_BRANCH}} )
         uses: actions/checkout@v4
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           ref: ${{env.MAIN_BRANCH}}
           fetch-depth: 0 # checkout the entire history
 
       - name: Set Git credentials
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"          
 
       - name: Execute merge
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git checkout $KUBERENETES_BRANCH
           git merge $MAIN_BRANCH
