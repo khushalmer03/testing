@@ -1,6 +1,0 @@
-another file in local
-<<<<<<< HEAD
-line added in local
-=======
-line added in remottte
->>>>>>> e8f291c00f8455482caf8fadef863cb1eccebe79
