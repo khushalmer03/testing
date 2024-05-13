@@ -3,7 +3,7 @@ name: b1 ONLY
 on:
   push:
     branches:
-      - main
+      - b1
 
 env:
   SOURCE_BRANCH: "${{ github.event.pull_request.head.ref }}"
