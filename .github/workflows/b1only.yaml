@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - b1
+  workflow_run:
+    workflows: ["Deploy Kubernetes sites by merging the main branch into the kubernetes branch"]
+    types:
+      - completed
 
 env:
   SOURCE_BRANCH: "${{ github.event.pull_request.head.ref }}"
