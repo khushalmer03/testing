@@ -31,7 +31,7 @@ jobs:
 
       - name: Execute merge
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git checkout $KUBERENETES_BRANCH
           git merge $MAIN_BRANCH
