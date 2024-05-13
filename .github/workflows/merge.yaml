@@ -12,9 +12,10 @@ jobs:
     env:
       MAIN_BRANCH: main
       KUBERENETES_BRANCH: b1
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Checkout Main ( ${{env.MAIN_BRANCH}} )
         uses: actions/checkout@v4
         with:
