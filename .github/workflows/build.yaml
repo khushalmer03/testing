@@ -20,4 +20,4 @@ jobs:
         with:
           directory: /
           framework: kubernetes
-          external_checks_dirs: /
+          external_checks_dirs: /custompoicy
