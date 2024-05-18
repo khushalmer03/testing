@@ -16,7 +16,7 @@ jobs:
           directory: /
           file: release.yaml # optional: provide the path for resource to be scanned. This will override the directory if both are provided.
           quiet: false # optional: display only failed checks
-          soft_fail: true # optional: do not return an error code if there are failed checks
+          soft_fail: false # optional: do not return an error code if there are failed checks
           framework: kubernetes # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
           # skip_framework: terraform # optional: skip a specific infrastructure {cloudformation,terraform,kubernetes,all}
           # skip_cve_package: CVE_2019_8331 # optional: skip a specific CVE package in SCA scans, can be comma separated list
