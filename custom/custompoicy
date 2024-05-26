@@ -6,6 +6,6 @@ metadata:
 definition:
   cond_type: "attribute"
   resource_types: "Deployment"
-  attribute: "spec.template.spec.containers.image"
+  attribute: "metadata.name"
   operator: "equals"
   value: "nginx"
