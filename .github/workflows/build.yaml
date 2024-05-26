@@ -19,6 +19,6 @@ jobs:
         uses: bridgecrewio/checkov-action@master
         with:
           file: main.tf
-          framework: terrform
+          framework: terraform
           # external_checks_dirs: /
           # check: ENSURE_DEFAULT_CONTAINER_ANNOTATION_IS_SET
