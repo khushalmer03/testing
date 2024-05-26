@@ -19,5 +19,5 @@ jobs:
         uses: bridgecrewio/checkov-action@master
         with:
           file: releas.yaml
-          external_checks_dirs: custom/
-          check: CKV_RM_IMG_01
+          external_checks_dirs: /
+          check: ENSURE_DEFAULT_CONTAINER_ANNOTATION_IS_SET
