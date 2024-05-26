@@ -21,3 +21,4 @@ jobs:
           directory: /
           framework: kubernetes
           external_checks_dirs: /custom
+          check: CKV_RM_IMG_01
