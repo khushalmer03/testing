@@ -5,7 +5,7 @@ metadata:
 
 definition:
   cond_type: "attribute"
-  resource_types: "Deployment"
+  resource_types: "all"
   attribute: "spec.template.spec.containers.image"
   operator: "equals"
   value: "nginx"
