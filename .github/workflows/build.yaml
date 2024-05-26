@@ -18,6 +18,6 @@ jobs:
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          file: releas.yaml
+          file: release.yaml
           external_checks_dirs: /
           check: ENSURE_DEFAULT_CONTAINER_ANNOTATION_IS_SET
