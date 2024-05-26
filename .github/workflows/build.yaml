@@ -19,6 +19,6 @@ jobs:
         uses: bridgecrewio/checkov-action@master
         with:
           file: release.yaml
-          framework: helm
+          framework: kubernetes
           external_checks_dirs: /custom
           skip_check: CKV_K8S_43
