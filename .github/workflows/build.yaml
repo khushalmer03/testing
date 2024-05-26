@@ -18,6 +18,6 @@ jobs:
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          file: release.yaml
+          file: releas.yaml
           external_checks_dirs: custom/
           check: CKV_RM_IMG_01
