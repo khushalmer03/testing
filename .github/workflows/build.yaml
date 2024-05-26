@@ -19,7 +19,5 @@ jobs:
         uses: bridgecrewio/checkov-action@master
         with:
           file: release.yaml
-          framework: kubernetes
           external_checks_dirs: custom/
           check: CKV_RM_IMG_01
-          skip_check: CKV_K8S_43
