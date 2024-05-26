@@ -1,0 +1,63 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: apprise
+  namespace: apprise
+spec:
+  chart:
+    spec:
+      chart: polymorphic-app
+      reconcileStrategy: ChartVersion
+      version: 1.2.8
+      sourceRef:
+        kind: HelmRepository
+        name: improwised-helm-source
+        namespace: flux-system
+  interval: 10m0s
+  values:
+    image:
+      repository: caronc/apprise
+      tag: v0.9.3
+    services:
+    - name: web
+      ports:
+      - name: http
+        containerPort: 8000
+      resources:
+        requests:
+          memory: "500Mi"
+          cpu: "10m"
+      securityContext:
+        fsGroup: 33
+        runAsGroup: 33
+        runAsUser: 33
+      healthcheck:
+        enabled: true
+        path: /
+        port: http
+      service:
+        ports:
+        - name: http
+          port: 8000
+          targetPort: http
+      ingress:
+        enabled: false
+        className: nginx
+        hosts:
+        - host: apprise.improwised.dev
+          paths:
+          - path: /
+            pathType: Prefix
+            servicePort: http
+    volumeMounts:
+    - mountPath: /config
+      name: apprise-volume
+    - mountPath: /plugin
+      name: apprise-volume
+    - mountPath: /attach
+      name: apprise-volume
+    volumes:
+    - name: apprise-volume
+      persistentVolumeClaim:
+        claimName: apprise-storage-claim
