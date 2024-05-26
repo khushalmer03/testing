@@ -1,11 +1,31 @@
-metadata:
-  id: "CKV_RM_IMG_01"
-  name: "Ensure Kubernetes image should be same"
-  category: "Kubernetes Security"
-
-definition:
-  cond_type: "attribute"
-  resource_types: "Deployment"
-  attribute: "spec.template.spec.containers.image"
-  operator: "equals"
-  value: "nginx"
+apiVersion: v1
+policies:
+  - name: Custom
+    isDefault: true
+    rules:
+      - identifier: ENSURE_DEFAULT_CONTAINER_ANNOTATION_IS_SET
+        messageOnFailure: Every workload must set the kubectl.kubernetes.io/default-container annotation so that multi-container workloads have sensible defaults for kubctl exec and kubectl log commands.
+customRules:
+  - identifier: ENSURE_DEFAULT_CONTAINER_ANNOTATION_IS_SET
+    name: Ensure workload has default container annotation set
+    defaultMessageOnFailure: Every workload must set the kubectl.kubernetes.io/default-container annotation so that multi-container workloads have sensible defaults for kubctl exec and kubectl log commands.
+    schema:
+      if:
+        properties:
+          kind:
+            enum:
+              - Deployment
+              - StatefulSet
+      then:
+        properties:
+          spec:
+            properties:
+              template:
+                properties:
+                  metadata:
+                    properties:
+                      annotations:
+                        required:
+                          - kubectl.kubernetes.io/default-container
+                    required:
+                      - annotations
