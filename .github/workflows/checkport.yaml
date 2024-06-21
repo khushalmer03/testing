@@ -1,0 +1,64 @@
+name: Run Tests and Performance
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  SOURCE_BRANCH: "${{ github.head_ref }}"
+
+jobs:
+  run_tests_and_performance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up MySQL dynamic port
+        id: mysql-port-setup
+        run: |
+          echo "Finding an available port..."
+          PORT=3308
+          while sudo lsof -i -P -n | grep -q ":$PORT "; do
+            PORT=$((PORT+1))
+          done
+          echo "Found available port: $PORT"
+          echo "MYSQL_PORT=$PORT" >> $GITHUB_ENV
+
+      - name: Set up MySQL dynamic port2
+        id: mysql-port-setup2
+        run: |
+          echo "Finding an available port..."
+          PORT=3308
+          while sudo lsof -i -P -n | grep -q ":$PORT "; do
+            PORT=$((PORT+1))
+          done
+          echo "Found available port: $PORT"
+          echo "MYSQL_PORT=$PORT" >> $GITHUB_ENV
+          
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Now that the port is found, set it globally for all jobs
+      - name: Export MySQL port
+        run: echo "MYSQL_PORT=${{ env.MYSQL_PORT }}" >> $GITHUB_ENV
+
+      - name: Run tests
+        run: |
+          echo "Running tests..."
+          echo "MySQL is running on port $MYSQL_PORT"
+          # Add your test commands here, using $MYSQL_PORT
+
+    services:
+      mysql:
+        image: mysql:8.3
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: testing_database
+          MYSQL_USERNAME: github_action_no_password
+        ports:
+          - ${{ env.MYSQL_PORT }}:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    
+    
+     
+      
+    
