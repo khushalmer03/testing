@@ -11,11 +11,16 @@ env:
 jobs:
   run_tests_and_performance:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Set up MySQL dynamic port
-        id: mysql-port-setup
+      - name: Start dummy service to occupy port
         run: |
-          echo "Finding an available port..."
+          nohup bash -c "while :; do echo 'HTTP/1.1 200 OK\r\n'; sleep 1; done | nc -l -p 3308" &
+          
+      - name: Check for available port
+        id: port-setup
+        run: |
+          echo "Checking if port 3308 is available..."
           PORT=3308
           while sudo lsof -i -P -n | grep -q ":$PORT "; do
             PORT=$((PORT+1))
@@ -23,29 +28,32 @@ jobs:
           echo "Found available port: $PORT"
           echo "MYSQL_PORT=$PORT" >> $GITHUB_ENV
 
-      - name: Set up MySQL dynamic port2
-        id: mysql-port-setup2
-        run: |
-          echo "Finding an available port..."
-          PORT=3308
-          while sudo lsof -i -P -n | grep -q ":$PORT "; do
-            PORT=$((PORT+1))
-          done
-          echo "Found available port: $PORT"
-          echo "MYSQL_PORT=$PORT" >> $GITHUB_ENV
-          
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Now that the port is found, set it globally for all jobs
       - name: Export MySQL port
         run: echo "MYSQL_PORT=${{ env.MYSQL_PORT }}" >> $GITHUB_ENV
+
+      - name: Wait for MySQL to be ready
+        run: |
+          echo "Waiting for MySQL to be ready on port $MYSQL_PORT..."
+          while ! mysqladmin ping -h "127.0.0.1" --port="$MYSQL_PORT" --silent; do
+            echo "MySQL is not ready yet. Waiting..."
+            sleep 2
+          done
+          echo "MySQL is ready!"
 
       - name: Run tests
         run: |
           echo "Running tests..."
           echo "MySQL is running on port $MYSQL_PORT"
           # Add your test commands here, using $MYSQL_PORT
+
+      - name: Run performance tests
+        run: |
+          echo "Running performance tests..."
+          echo "MySQL is running on port $MYSQL_PORT"
+          # Add your performance test commands here, using $MYSQL_PORT
 
     services:
       mysql:
@@ -57,8 +65,3 @@ jobs:
         ports:
           - ${{ env.MYSQL_PORT }}:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-    
-    
-     
-      
-    
